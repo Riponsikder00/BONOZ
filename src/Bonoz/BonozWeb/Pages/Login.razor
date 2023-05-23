@@ -1,0 +1,75 @@
+﻿@page "/Login"
+
+@layout LoginLayout
+
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@inject ISecurity securityManager
+@inject IAuthService authService
+@inject NavigationManager navigationManager
+@inject NotificationService notificationService
+
+
+
+<EditForm Model="user" OnSubmit="HandleSubmit">
+    <h3 class="text-center"> Login </h3>
+    <div class="card dataForm div-center " style="width:30%; margin-left: 35%;">
+        <div class="row">
+            <label for="loginId">LoginId</label>
+            <InputText id="loginId" @bind-Value="user.LoginId" class="form-control"></InputText>
+        </div>
+        <div class="row">
+            <label for="password">Password</label>
+            <InputText type ="password" id="password" @bind-Value="user.Password" class="form-control"></InputText>
+        </div>
+        <br />
+        <div>
+            <button type="submit" class="btn btn-primary m-2">Login</button>
+            <button type="button" class="btn btn-primary m-2" @onclick="SignUpButton">Sign Up</button>
+            <button type="button" class="btn btn-primary m-2" @onclick="ResetButton">Forget Password</button>
+            <button type="button" class="btn btn-primary m-2" @onclick="CencelButton">Cencel</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+
+    User user = new User()
+    {
+    };
+
+    async Task HandleSubmit()
+    {
+        user = securityManager.AuthenticateUserCredentials(user.LoginId, user.Password);
+        if (user != null)
+        {
+            // authService.AddLoginSession(user);
+            await authService.SetupAuthClaims(user, HttpContextAccessor.HttpContext);
+            notificationService.SetMessage("Login successfully", true);
+            navigationManager.NavigateTo("UserList");
+        }
+        else
+        {
+            notificationService.SetMessage("Login Failed", false);
+            navigationManager.NavigateTo("UserList");
+        }
+        
+    }
+
+
+    private void CencelButton()
+    {
+        navigationManager.NavigateTo("/");
+    }
+
+    private void SignUpButton()
+    {
+        navigationManager.NavigateTo("Registration");
+    }
+
+    private void ResetButton()
+    {
+        navigationManager.NavigateTo("ResetPassword");
+    }
+}

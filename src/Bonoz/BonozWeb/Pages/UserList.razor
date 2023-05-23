@@ -1,0 +1,87 @@
+﻿@page "/UserList"
+
+@inject ISecurity securityManager
+@inject NavigationManager navigationManager
+@inject NotificationService notificationService
+
+<Notification NotificationMessage="@notificationService.Message" IsSuccess="@notificationService.IsSuccess" OnClearMessage="ClearNotificationMessage" />
+
+@if (securityManager.GetAppUsers() == null)
+{
+    <p><em>No category data in the table</em></p>
+}
+else
+{
+    <div class="card dataForm p-3">
+        <div class="row">
+           
+            <div class="card-body">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>User Role Desc</th>
+                            <th>LoginId</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in securityManager.GetAppUsers())
+                        {
+                            <tr>
+                                <td scope="row">@user.Name</td>
+                                <td scope="row">@user.Email</td>
+                                <td scope="row">@user.AppUserRoleDesc</td>
+                                <td scope="row">@user.LoginId</td>
+                                <td scope="row">
+                                    <button class="btn btn-primary" @onclick="(() => ShowUser(user.Id))">Edit</button>
+                                    <button class="btn btn-primary" @onclick="(() => ChangePassword(user.Id))">Change Password</button>
+                                    <button type="button" class="btn btn-danger m-2" @onclick="(() => DeleteUser(user.Id))">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+    <br />
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var GetAppUsers = securityManager.GetAppUsers();
+    }
+
+    private void ClearNotificationMessage()
+    {
+        notificationService.Message = null;
+    }
+
+    void ChangePassword(int id)
+    {
+        navigationManager.NavigateTo($"ChangePassword/{id}");
+    }
+    
+
+    void ShowUser(int id)
+    {
+        navigationManager.NavigateTo($"UserCreate/{id}");
+    }
+
+    void CreateUser()
+    {
+        navigationManager.NavigateTo("/UserCreate");
+    }
+
+
+    void DeleteUser(int id)
+    {
+        //salesManager.DeleteCategory(id);
+    }
+
+}

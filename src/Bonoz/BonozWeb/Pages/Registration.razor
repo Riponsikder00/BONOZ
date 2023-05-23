@@ -1,0 +1,103 @@
+﻿@page "/Registration"
+@layout LoginLayout
+
+@inject ISecurity securityManager
+@inject NavigationManager navigationManager
+@inject NotificationService notificationService
+
+<h3> Registration </h3>
+
+<EditForm Model="user" OnSubmit="HandleSubmit">
+    <div class="card dataForm p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="name"> Name</label>
+                <InputText id="name" @bind-Value="user.Name" class="form-control"></InputText>
+            </div>
+            <div class="col-md-4">
+                <label for="email"> Email</label>
+                <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
+            </div>
+            <div class="col-md-4">
+                <label for="phone"> Phone</label>
+                <InputText id="phone" @bind-Value="user.Phone" class="form-control"></InputText>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="loginId">LoginId</label>
+                <InputText id="loginId" @bind-Value="user.LoginId" class="form-control"></InputText>
+            </div>
+            <div class="col-md-4">
+                <label for="password"> Password</label>
+                <InputText id="password" @bind-Value="user.Password" class="form-control"></InputText>
+            </div>
+        </div>
+        <br />
+        <div>
+            <button type="submit" class="btn btn-primary m-2">Registration</button>
+            <button type="button" class="btn btn-primary m-2" @onclick="LoginButton">Sign In</button>
+           
+            <button type="button" class="btn btn-primary m-2" @onclick="CencelButton">Cencel</button>
+
+        </div>
+    </div>
+</EditForm>
+
+@code {
+
+    User user = new User()
+    {
+    };
+
+
+    private void CencelButton()
+    {
+        navigationManager.NavigateTo("/");
+    }
+
+    private void LoginButton()
+    {
+        navigationManager.NavigateTo("Login");
+    }
+   
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    if (Id == null)
+    //    {
+    //    }
+    //    else
+    //    {
+    //        securityManager.UpdateAppUser(user);
+    //    }
+    //}
+
+    async Task HandleSubmit()
+    {
+        if (user.LoginId != null)
+        {
+            var checkuserId = securityManager.CheckForExistingAppUserId(user.LoginId);
+            if (checkuserId == null)
+            {
+                securityManager.CreateAppUser(user, 4);
+                //notificationService.Message = "Data add successfully complete";
+
+                notificationService.SetMessage("Registration has been complete successfully", true);
+                navigationManager.NavigateTo("UserList");
+            }
+            else
+            {
+                notificationService.SetMessage($"already used this login : {user.LoginId}", false);
+                navigationManager.NavigateTo("UserList");
+            }
+            
+        }
+        else
+        {
+            notificationService.SetMessage("You must inert all fields", false);
+            navigationManager.NavigateTo("UserList");
+        }
+
+    }
+}

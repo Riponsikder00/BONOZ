@@ -1,0 +1,125 @@
+@page "/UserCreate"
+@page "/UserCreate/{id:int}"
+
+@inject NotificationService notificationService
+@inject ISecurity securityManager
+@inject NavigationManager navigationManager
+
+<h3> New User Create</h3>
+
+<EditForm Model="user" OnSubmit="HandleSubmit">
+    <div class="card dataForm p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="name"> Name</label>
+                <InputText id="name" @bind-Value="user.Name" class="form-control"></InputText>
+            </div>
+            <div class="col-md-4">
+                <label for="email"> Email</label>
+                <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
+            </div>
+            <div class="col-md-4">
+                <label for="phone"> Phone</label>
+                <InputText id="phone" @bind-Value="user.Phone" class="form-control"></InputText>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <label> User Role</label><br />
+                    <InputSelect @bind-Value="user.SelectedRoleId" class="form-select">
+                        @foreach (var role in RolesList)
+                        {
+                            <option value="@role.Id">@role.Description</option>
+                        }
+                    </InputSelect>
+
+                </div>
+            </div>
+            @if (Id == null)
+            {
+                <div class="col-md-4">
+                    <label for="loginId">LoginId</label>
+                    <InputText id="loginId" @bind-Value="user.LoginId" class="form-control"></InputText>
+                </div>
+                <div class="col-md-4">
+                    <label for="password"> Password</label>
+                    <InputText id="password" @bind-Value="user.Password" class="form-control"></InputText>
+                </div>
+            }
+
+        </div>
+        <br />
+        <div>
+            <button type="submit" class="btn btn-primary m-2">@btnText</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    public IList<AppRole> RolesList { get; set; }
+
+    User user = new User()
+    {
+
+    };
+    string btnText = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        btnText = Id == null ? "Save" : "Update";
+        RolesList = securityManager.GetAllAppRoles();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            // userRole = user.SelectedRoleId;
+            //user.AppUserRoles.AppRoleId = user.AppUserRoles.;
+        }
+        else
+        {
+
+            user = securityManager.GetAppUser((int)Id);
+            //userRole = user.SelectedRoleId;
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            if(user.LoginId != null)
+            {
+                var checkuserId = securityManager.CheckForExistingAppUserId(user.LoginId);
+                if (checkuserId == null)
+                {
+
+                    securityManager.CreateAppUser(user, user.SelectedRoleId);
+                   // notificationService.SetMessage("User has been complete successfully");
+                    navigationManager.NavigateTo("UserList");
+                }
+                else
+                {
+                   // notificationService.SetMessage($"already used this login : {user.LoginId}");
+                    navigationManager.NavigateTo("/");
+                }
+            }
+            else
+            {
+                //notificationService.SetMessage("Something is wrong");
+                navigationManager.NavigateTo("/");
+            }
+           
+        }
+        else
+        {
+                securityManager.UpdateAppUser(user, user.SelectedRoleId);
+                navigationManager.NavigateTo("UserList");
+        }
+
+    }
+}

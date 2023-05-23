@@ -1,0 +1,38 @@
+﻿@inject NavigationManager navigationManager
+
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <NotAuthorized>
+            <NavLink class="nav-link"  Match="NavLinkMatch.All">
+                <button type="button" class="btn btn-primary" @onclick="Registration">Sign Up</button>
+                @*<span class="oi oi-person" aria-hidden="true" @onclick="Registration"></span> Sign Up*@
+            </NavLink>
+            <NavLink class="nav-link" Match="NavLinkMatch.All">
+                <button type="button" class="btn btn-primary" @onclick="SignIn">Sign In</button>
+                @*<span class="oi oi-account-login" aria-hidden="true" @onclick="SignIn"></span> Sign In*@
+            </NavLink>
+            
+        </NotAuthorized>
+        <Authorized>
+            <a href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</a>
+            <form method="post" action="Identity/Account/LogOut">
+                <button type="submit" class="nav-link btn btn-link ">
+                    <span class="oi oi-account-logout" aria-hidden="true"></span> Sign Out
+                </button>
+            </form>
+        </Authorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
+
+
+@code {
+    void SignIn()
+    {
+        navigationManager.NavigateTo("Login");
+    }
+
+    void Registration()
+    {
+        navigationManager.NavigateTo("Registration");
+    }
+}

@@ -1,0 +1,44 @@
+﻿@page "/Notification"
+
+@if (!string.IsNullOrEmpty(NotificationMessage))
+{
+    if (IsSuccess)
+    {
+        <div class="row p-2">
+            <div class="alert alert-dismissible fade show bg-success text-white" role="alert">
+                <strong>@NotificationMessage</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="ClearMessage">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row p-2">
+            <div class="alert alert-dismissible fade show bg-danger text-white" role="alert">
+                <strong>@NotificationMessage</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="ClearMessage">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    }
+   
+}
+
+@code {
+    [Parameter]
+    public string NotificationMessage { get; set; }
+
+    [Parameter]
+    public bool IsSuccess { get; set; }
+
+    [Parameter]
+    public EventCallback OnClearMessage { get; set; }
+
+    private async Task ClearMessage()
+    {
+        await OnClearMessage.InvokeAsync();
+    }
+}

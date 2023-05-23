@@ -396,3 +396,49 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# Ignore NuGet packages folder
+**/bin/
+**/obj/
+
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.cache
+*.csproj.user
+*.sln.docstates
+*.userprefs
+_resharper
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore local publish output
+/wwwroot/dist/
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore JetBrains Rider settings
+.idea/
+
+# Ignore Mac-specific files
+.DS_Store
+
+# Ignore Blazor WebAssembly publish output
+/_framework/
+
+# Ignore Blazor Server application logs
+/_blazorlogs/
+
+# Ignore Blazor WebAssembly service worker registration
+/service-worker.published.js
+
+# Ignore SQLite database file
+*.sqlite
+
+# Ignore Node.js dependencies
+node_modules/
