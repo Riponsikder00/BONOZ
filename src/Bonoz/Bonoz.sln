@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BonozApplication", "BonozAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BonozWeb", "BonozWeb\BonozWeb.csproj", "{4C248EE6-8F7C-4DC3-BEE4-CED03A617A7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BonozAPI", "BonozAPI\BonozAPI.csproj", "{AF29C9BE-8B17-4E64-B2FA-D90C4D70D9EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4C248EE6-8F7C-4DC3-BEE4-CED03A617A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C248EE6-8F7C-4DC3-BEE4-CED03A617A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C248EE6-8F7C-4DC3-BEE4-CED03A617A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF29C9BE-8B17-4E64-B2FA-D90C4D70D9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF29C9BE-8B17-4E64-B2FA-D90C4D70D9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF29C9BE-8B17-4E64-B2FA-D90C4D70D9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF29C9BE-8B17-4E64-B2FA-D90C4D70D9EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
