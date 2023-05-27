@@ -1,7 +1,6 @@
-﻿namespace BonozDomain.Sales
+﻿namespace BonozDomain.DTO.SalesDTO
 {
-
-    public class Category
+    public class ProductCategoryDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

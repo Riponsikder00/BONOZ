@@ -4,15 +4,15 @@
     {
         #region Category
 
-        Category GetCategory(int id);
+        ProductCategory GetCategory(int id);
 
         //IList<Petition> GetAllPetitions(int CaseId);
 
-        int CreateCategory(Category category);
+        int CreateCategory(ProductCategory category);
 
-        bool UpdateCategory(Category category);
+        bool UpdateCategory(ProductCategory category);
 
-       IList<Category> GetAllCategories();
+       IList<ProductCategory> GetAllCategories();
 
         bool DeleteCategory(int id);
 

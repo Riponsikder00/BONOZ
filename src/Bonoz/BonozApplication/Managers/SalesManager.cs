@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-
-namespace BonozApplication.Managers
+﻿namespace BonozApplication.Managers
 {
     public class SalesManager : BaseDataManager, ISales
     {
@@ -11,20 +9,20 @@ namespace BonozApplication.Managers
 
         #region Category
 
-        public int CreateCategory(Category category)
+        public int CreateCategory(ProductCategory category)
         {
             AddUpdateEntity(category);
             return category.Id;
         }
 
-        public bool UpdateCategory(Category category)
+        public bool UpdateCategory(ProductCategory category)
         {
             return AddUpdateEntity(category);
         }
 
-        public Category GetCategory(int id)
+        public ProductCategory GetCategory(int id)
         {
-            return FindEntity<Category>(id);
+            return FindEntity<ProductCategory>(id);
         }
 
         //public IList<PetitionListDTO> GetAllPetitionsList(int caseId)
@@ -34,12 +32,12 @@ namespace BonozApplication.Managers
 
         public bool DeleteCategory(int id)
         {
-            return RemoveEntity<Category>(id);
+            return RemoveEntity<ProductCategory>(id);
         }
 
-        public IList<Category> GetAllCategories()
+        public IList<ProductCategory> GetAllCategories()
         {
-            return GetEntityListData<Category>();
+            return GetEntityListData<ProductCategory>();
         }
 
         //private async Task SetUsers(HttpResponseMessage result)
